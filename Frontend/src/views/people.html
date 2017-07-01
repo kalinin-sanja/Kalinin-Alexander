@@ -1,0 +1,41 @@
+<div class="form-horizontal col-sm-offset-2">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">
+            Search
+        </label>
+        <div class="col-sm-5">
+            <input class="form-control" ng-model="query" ng-change="setSearchQuery(query)" type="text" value=""/>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Contacts
+    </div>
+    <table class="table table-bordered">
+        <tr>
+            <th ng-click="sort()">Name <span class="glyphicon" ng-class="{'glyphicon-chevron-up': isSortUp(),
+                              'glyphicon-chevron-down': isSortDown()}"></span>
+            </th>
+            <th>Phone</th>
+            <th>Sex</th>
+            <th>Birthday</th>
+            <th>Group</th>
+            <th>Is draft</th>
+        </tr>
+        <tr ng-repeat="person in people">
+            <td>{{person.name}}</td>
+            <td>{{person.phone}}</td>
+            <td>{{person.sex ? 'Male' : 'Female'}}</td>
+            <td>{{person.birthday | date:'yyyy-MM-dd'}}</td>
+            <td>{{person.group.name}}</td>
+            <td>{{person.isDraft ? 'Yes' : 'No'}}</td>
+        </tr>
+    </table>
+</div>
+<div class="col-sm-offset-4">
+    <ul uib-pagination total-items="totalCount" items-per-page="pageSize" ng-model="currentPage"
+                max-size="pageSize" num-pages="numPages" class="pagination-sm" boundary-links="true" ng-change="pageChanged()">
+    </ul>
+</div>

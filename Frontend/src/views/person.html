@@ -1,0 +1,103 @@
+<div class="col-md-12 col-sm-offset-2">
+    <form class="form-horizontal" name="personForm">
+        <div ng-switch on="error">
+            <div ng-switch-when="true" class="form-group">
+                <div class="col-sm-5 col-sm-offset-2">
+                    <div class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        Something went wrong
+                    </div>
+                </div>
+            </div>
+        </div>
+        <fieldset>
+            <div class="form-group" ng-class="{ 'has-error': personForm.name.$touched && personForm.name.$invalid }">
+                <label for="inputName" class="col-sm-2 control-label">
+                    Name
+                </label>
+                <div class="col-sm-5">
+                    <input type="text" name="name" class="form-control" id="inputName" ng-model="person.name" required
+                           placeholder="Input name" ng-minlength="3" ng-maxlength="100"/>
+                </div>
+                <div class="col-sm-4" ng-messages="personForm.name.$error" ng-show="personForm.name.$touched">
+                    <strong class="text-danger" ng-message="required"><span class="field-validation-valid">You did not enter a field</span></strong>
+                    <strong class="text-danger" ng-message="minlength"><span class="field-validation-valid">Your field is too short</span></strong>
+                    <strong class="text-danger" ng-message="maxlength"><span class="field-validation-valid">Your field is too long</span></strong>
+                    <strong class="text-danger" ng-message="pattern"><span class="field-validation-valid">Incorrect format</span></strong>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error': personForm.phone.$touched && personForm.phone.$invalid }">
+                <label for="inputPhone" class="col-sm-2 control-label">
+                    Phone
+                </label>
+                <div class="col-sm-5">
+                    <input type="text" name="phone" class="form-control" id="inputPhone" ng-model="person.phone"
+                           required ng-pattern="/[\+]\d{1}[\(]\d{3}[\)]\d{3}[\-]\d{2}[\-]\d{2}/"
+                           placeholder="Phone number format: +7(999)999-99-99"/>
+                </div>
+                <div class="col-sm-4" ng-messages="personForm.phone.$error" ng-show="personForm.phone.$touched">
+                    <strong class="text-danger" ng-message="required"><span class="field-validation-valid">You did not enter a field</span></strong>
+                    <strong class="text-danger" ng-message="pattern"><span class="field-validation-valid">Incorrect format</span></strong>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="selectGroup" class="col-sm-2 control-label">Group</label>
+                <div class="col-sm-5">
+                    <select ng-model="group" class="form-control"
+                            ng-options="group.name for group in groups track by group.id" id="selectGroup"
+                            ng-change="updateGroupId(group.id)"></select>
+                </div>
+                <br/>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    Sex
+                </label>
+                <div class="col-sm-5">
+                    <input name="male" ng-model="person.sex" type="radio" value="true"/> М
+                    <input name="female" ng-model="person.sex" type="radio" value="false"/> F
+                </div>
+            </div>
+
+            <div class="form-group"
+                 ng-class="{ 'has-error': personForm.birthday.$touched && personForm.birthday.$invalid }">
+                <label class="col-sm-2 control-label">
+                    Birthday
+                </label>
+                <div class="col-sm-5">
+                    <p class="input-group" readonly="">
+                        <input type="text" name="birthday" readonly="" class="form-control" uib-datepicker-popup="{{format}}"
+                               ng-model="person.birthday"
+                               is-open="popupCalendar.opened" datepicker-options="dateOptions" ng-required="true"
+                               close-text="Close"/>
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="openCalendar()"><i
+                                class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                </div>
+                <div class="col-sm-4" ng-messages="personForm.birthday.$error" ng-show="personForm.birthday.$touched">
+                    <strong class="text-danger" ng-message="required"><span class="field-validation-valid">You did not enter a field</span></strong>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="person.isDraft"/> Draft
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-5">
+                <button type="submit" class="btn btn-primary btn-block" ng-click="save(person, personForm)">Save
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

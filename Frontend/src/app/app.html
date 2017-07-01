@@ -1,0 +1,13 @@
+<div ng-controller="NavController" class="nav">
+    <ul class="nav nav-tabs">
+        <li ng-class="classActive('/people')">
+            <a href="#!/people">People</a>
+        </li>
+        <li ng-class="classActive('/person')">
+            <a href="#!/person">Add</a>
+        </li>
+    </ul>
+</div>
+<div class="container body-content view">
+    <ng-view></ng-view>
+</div>
