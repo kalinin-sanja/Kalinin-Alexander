@@ -101,6 +101,8 @@ namespace PhonebookApi.Services
         public override T Get(long id)
         {
             var dbEntry = Repository.Get(id);
+            if (dbEntry == null)
+                return null;
             return Mapper.Map(dbEntry);
         }
 
@@ -168,6 +170,7 @@ namespace PhonebookApi.Services
         public override void Update(T entry)
         {
             var dbEntry = Mapper.InverseMap(entry);
+            dbEntry.LastEditingTime = DateTime.UtcNow;
             dbEntry = Repository.Update(dbEntry);
             RepoUoW.Save();
         }
@@ -175,6 +178,7 @@ namespace PhonebookApi.Services
         public async Task UpdateAsync(T entry)
         {
             var dbEntry = Mapper.InverseMap(entry);
+            dbEntry.LastEditingTime = DateTime.UtcNow;
             dbEntry = await Repository.UpdateAsync(dbEntry);
             await RepoUoW.SaveAsync();
         }

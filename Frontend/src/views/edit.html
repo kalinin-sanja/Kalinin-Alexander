@@ -5,7 +5,7 @@
                 <div class="col-sm-5 col-sm-offset-2">
                     <div class="alert alert-danger" role="alert">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        Something went wrong
+                        {{errorMessage}}
                     </div>
                 </div>
             </div>
@@ -55,9 +55,13 @@
                 <label class="col-sm-2 control-label">
                     Sex
                 </label>
+                <!--<div class="col-sm-5" ng-if="male">-->
+                    <!--<input name="sex" ng-model="person.male" type="radio" ng-checked="person.sex"/> М-->
+                    <!--<input name="sex" ng-model="person.female" type="radio" ng-checked="!person.sex"/> F-->
+                <!--</div>-->
                 <div class="col-sm-5">
-                    <input name="male" ng-model="person.sex" type="radio" value="true"/> М
-                    <input name="female" ng-model="person.sex" type="radio" value="false"/> F
+                    <input name="sex" ng-model="person.sex" type="radio" ng-checked="male" ng-change="changeSex(true)" /> М
+                    <input name="sex" ng-model="person.sex" type="radio" ng-checked="female" ng-change="changeSex(false)" /> F
                 </div>
             </div>
 

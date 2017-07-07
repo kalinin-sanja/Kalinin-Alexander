@@ -17,5 +17,6 @@ namespace PhonebookApi.Models
         public DateTime Birthday { get; set; }
         public long GroupId { get; set; }
         public DateTime? CreatingTime { get; set; }
+        public DateTime? LastEditingTime { get; set; }
     }
 }

@@ -23,6 +23,7 @@
             <th>Birthday</th>
             <th>Group</th>
             <th>Is draft</th>
+            <th></th>
         </tr>
         <tr ng-repeat="person in people">
             <td>{{person.name}}</td>
@@ -31,6 +32,7 @@
             <td>{{person.birthday | date:'yyyy-MM-dd'}}</td>
             <td>{{person.group.name}}</td>
             <td>{{person.isDraft ? 'Yes' : 'No'}}</td>
+            <td><a href="#!edit/{{person.id}}">Edit</a></td>
         </tr>
     </table>
 </div>

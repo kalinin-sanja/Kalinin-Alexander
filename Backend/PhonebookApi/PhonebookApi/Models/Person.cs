@@ -21,5 +21,6 @@ namespace PhonebookApi.Models
         public long GroupId { get; set; }
         public virtual Group Group { get; set; }
         public DateTime? CreatingTime { get; set; }
+        public DateTime? LastEditingTime { get; set; }
     }
 }

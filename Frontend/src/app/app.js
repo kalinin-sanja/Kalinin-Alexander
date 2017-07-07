@@ -21,16 +21,22 @@ class AppCtrl {
 const MODULE_NAME = 'angularApp';
 
 var peopleTemplateUrl = require('../views/people.html');
-var personTemplateUrl = require('../views/person.html');
+var personTemplateUrl = require('../views/add.html');
+var personEditTemplateUrl = require('../views/edit.html');
 
 var angularApp = angular.module(MODULE_NAME, ['ngRoute', 'ngMessages', 'ui.bootstrap'])
     .directive('app', app)
     .controller('AppCtrl', AppCtrl)
     .config(function($routeProvider){
-      $routeProvider.when('/person',
+      $routeProvider.when('/add',
           {
             template: personTemplateUrl,
-            controller:'PersonController'
+            controller:'AddController'
+          });
+      $routeProvider.when('/edit/:id',
+          {
+            template: personEditTemplateUrl,
+            controller:'EditController'
           });
       $routeProvider.when('/people',
           {

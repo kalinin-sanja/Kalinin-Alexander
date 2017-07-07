@@ -6,5 +6,6 @@ namespace PhonebookApi.Models
     {
         string Name { get; set; }
         DateTime? CreatingTime { get; set; }
+        DateTime? LastEditingTime { get; set; }
     }
 }

@@ -26,15 +26,51 @@ namespace PhonebookApi.Controllers
             return Ok(model);
         }
 
+        [Route("api/people/create")]
         [HttpPost]
-        public async Task<IHttpActionResult> Post(PersonPostViewModel person)
+        public async Task<IHttpActionResult> CreatePost(PersonPostViewModel person)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            if (RepoUoW.PersonRepository.ExistByPhone(person.Phone, person.Id))
+                return BadRequest("Phone number is already used");
+
             try
             {
                 await ServiceUoW.PersonPostViewModelService.AddAsync(person);
+            }
+            catch (System.Exception)
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+
+        [Route("api/people/edit")]
+        [HttpGet]
+        public async Task<IHttpActionResult> Edit(long id)
+        {
+            var person = await ServiceUoW.PersonPostViewModelService.GetAsync(id);
+            if (person == null)
+                return NotFound();
+
+            return Ok(person);
+        }
+        
+        [Route("api/people/edit")]
+        [HttpPost]
+        public async Task<IHttpActionResult> EditPost(PersonPostViewModel person)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (RepoUoW.PersonRepository.ExistByPhone(person.Phone, person.Id))
+                return BadRequest("Phone number is already used");
+
+            try
+            {
+                await ServiceUoW.PersonPostViewModelService.UpdateAsync(person);
             }
             catch (System.Exception)
             {

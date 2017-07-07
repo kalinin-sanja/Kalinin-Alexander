@@ -1,45 +1,49 @@
 'use strict';
-function PersonController($scope, $http, $location, dataService){
-        $scope.error = false;
-        $scope.person = {};
-        $scope.person.sex = true;
-        function getGroups(filter) {
-            var promiseObj=dataService.getGroups(filter);
-            promiseObj.then(function(value) {
-                $scope.groups = value;
-                $scope.group = $scope.groups[0];
-                $scope.person.groupId = $scope.group.id;
-            });
-        }
-        $scope.updateGroupId = function (id) {
-            $scope.person.groupId = id;
-        };
+function AddController($scope, $http, $location, dataService) {
+    $scope.error = false;
+    $scope.person = {};
+    $scope.person.sex = true;
+    function getGroups(filter) {
+        var promiseObj = dataService.getGroups(filter);
+        promiseObj.then(function (value) {
+            $scope.groups = value;
+            $scope.group = $scope.groups[0];
+            $scope.person.groupId = $scope.group.id;
+        });
+    }
 
-        var filter = {};
-        getGroups(filter);
-        $scope.response={};
-        $scope.save = function (person, personForm){
-            if(personForm.$valid){
-                $http.post("http://localhost:34703/api/people/", person).then(function success(response) {
-                    $scope.response=response.data;
+    $scope.updateGroupId = function (id) {
+        $scope.person.groupId = id;
+    };
+
+    var filter = {};
+    getGroups(filter);
+    $scope.response = {};
+    $scope.save = function (person, personForm) {
+        if (personForm.$valid) {
+            $http.post("http://localhost:34703/api/people/create", person).then(function success(response) {
+                    $scope.response = response.data;
                     $location.path('/people');
                 },
                 function errorCallback(response) {
                     $scope.error = true;
+                    if (response.status === 400 && response.data.message !== "")
+                        $scope.errorMessage = response.data.message;
+                    else
+                        $scope.errorMessage = "Something went wrong";
                 });
-            }
-            else
-            {
-                $scope.personForm.birthday.$touched = true;
-            }
-        };
+        }
+        else {
+            $scope.personForm.birthday.$touched = true;
+        }
+    };
 
-    $scope.today = function() {
+    $scope.today = function () {
         $scope.person.birthday = new Date();
     };
     $scope.today();
 
-    $scope.clear = function() {
+    $scope.clear = function () {
         $scope.person.birthday = null;
     };
 
@@ -56,18 +60,18 @@ function PersonController($scope, $http, $location, dataService){
         startingDay: 1
     };
 
-    $scope.toggleMin = function() {
+    $scope.toggleMin = function () {
         $scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
         $scope.dateOptions.minDate = $scope.inlineOptions.minDate;
     };
 
     $scope.toggleMin();
 
-    $scope.openCalendar = function() {
+    $scope.openCalendar = function () {
         $scope.popupCalendar.opened = true;
     };
 
-    $scope.setDate = function(year, month, day) {
+    $scope.setDate = function (year, month, day) {
         $scope.person.birthday = new Date(year, month, day);
     };
 
@@ -96,10 +100,10 @@ function PersonController($scope, $http, $location, dataService){
         var date = data.date,
             mode = data.mode;
         if (mode === 'day') {
-            var dayToCheck = new Date(date).setHours(0,0,0,0);
+            var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
 
             for (var i = 0; i < $scope.events.length; i++) {
-                var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
+                var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
 
                 if (dayToCheck === currentDay) {
                     return $scope.events[i].status;
@@ -110,4 +114,4 @@ function PersonController($scope, $http, $location, dataService){
         return '';
     }
 }
-module.exports = PersonController;
+module.exports = AddController;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using PhonebookApi.Models;
 
 namespace PhonebookApi.Mappers
 {
@@ -155,14 +156,14 @@ namespace PhonebookApi.Mappers
             var outProperties = GetProporties(typeof(T2), false)
                 .Concat(GetProporties(typeof(T2), true))
                 .ToList();
-            //var includeProps = new[]
-            //{
-            //    nameof(IIdentityBase.Deleted),
-            //    nameof(IIdentityBase.CreatingTime),
-            //    nameof(IIdentityBase.LastEditingTime)
-            //};
+            var includeProps = new[]
+            {
+                //nameof(IIdentityBase.Deleted),
+                nameof(IIdentityBase.CreatingTime),
+                nameof(IIdentityBase.LastEditingTime)
+            };
             var properties = MapProperty(inProperties, outProperties)
-                .Where(x => x.Key.PropertyType != x.Value.PropertyType/* || includeProps.Contains(x.Key.Name)*/)
+                .Where(x => x.Key.PropertyType != x.Value.PropertyType || includeProps.Contains(x.Key.Name))
                 .ToDictionary(x => x.Key, x => x.Value);
             return MapEntry(inEntry, outEntry, properties, methodName);
         }
